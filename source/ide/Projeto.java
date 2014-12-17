@@ -5,7 +5,6 @@
  */
 package ide;
 
-import ide.gui.ProjectsList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -31,10 +30,16 @@ public class Projeto {
      */
     public Projeto(File diretorio) {
         if (diretorio != null && diretorio.isDirectory() && diretorio.exists()) {
-            this.diretorio = diretorio;
             nome = diretorio.getName();
+            this.diretorio = diretorio;
             sourceFile = new File(diretorio, nome + ".asm");
             romFile = new File(diretorio, nome + ".bin");
+            salvo = true;
+        } else if(diretorio != null && diretorio.exists()) {
+            nome = diretorio.getName();
+            this.diretorio = diretorio;
+            sourceFile = diretorio;
+            romFile = null;
             salvo = true;
         } else {
             throw new IllegalArgumentException("Can't create a project");
@@ -119,7 +124,7 @@ public class Projeto {
             arquivoFonte = new FileWriter(sourceFile);
             arquivoFonte.write(conteudo); //grava no arquivo o codigo-fonte
             arquivoFonte.close();
-            System.out.println("saved file: " + nome + ".asm");
+            System.out.println("saved file: " + sourceFile.getName());
             salvo = true;
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
@@ -275,9 +280,19 @@ public class Projeto {
     }
 
     public void delete() {
-        sourceFile.delete();
-        romFile.delete();
-        diretorio.delete();
-        System.out.println("deleted project: " + nome);
+        if(isFile()) {
+            sourceFile.delete();
+            System.out.println("deleted file: " + nome);
+        } else {
+            for (File file : diretorio.listFiles()) {
+                file.delete();
+            }
+            diretorio.delete();
+            System.out.println("deleted project: " + nome);
+        }
+    }
+
+    public boolean isFile() {
+        return (romFile==null);
     }
 }

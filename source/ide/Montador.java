@@ -22,7 +22,7 @@ public class Montador {
         String destino = proj.getDiretorio().getAbsolutePath()+"/"+proj.getNome();
         String saida = "";
         try {
-            process = new ProcessBuilder(Recursos.MONTADOR, source,"-o"+destino+".bin", "-f3", "-I"+Recursos.INCLUDE+"/").start();
+            process = new ProcessBuilder(Recursos.MONTADOR, source,"-o"+destino+".bin", "-f3", "-I"+Recursos.INCLUDE+"/", "-I"+proj.getDiretorio()+"/").start();
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);

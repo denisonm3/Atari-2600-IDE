@@ -16,45 +16,64 @@ import javax.swing.ListCellRenderer;
  */
 public class ProjectsList extends DefaultListModel implements ListCellRenderer {
 
-    private final JLabel item;
+    private final JLabel itemProjeto;
+    private final JLabel itemFile;
 
     public ProjectsList() {
         File[] projects = Recursos.PROJECTS_DIR.listFiles();
         for (File project : projects) {
             if (project.isDirectory()) {
                 addElement(new Projeto(project));
+                File[] files = project.listFiles();
+                for (File file : files) {
+                    if(file.getName().endsWith(".h")) {
+                        addElement(new Projeto(file));
+                    }
+                }
             }
         }
-        item = new JLabel("texto");
-        item.setIcon(Recursos.ICON);
-        item.setOpaque(true);
+        itemProjeto = new JLabel("texto");
+        itemProjeto.setIcon(Recursos.ICON);
+        itemProjeto.setOpaque(true);
+        itemFile = new JLabel("-");
+        itemFile.setBackground(Color.WHITE);
+        itemFile.setOpaque(true);
     }
 
     @Override
     public Projeto get(int index) {
-        return (Projeto) super.get(index);
-    }
-
-    @Override
-    public Projeto getElementAt(int index) {
-        return (Projeto) super.getElementAt(index);
+        if (super.get(index) instanceof Projeto) {
+            return (Projeto) super.get(index);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        item.setText(value.toString());
-        if (isSelected) {
-            item.setBackground(Color.BLUE);
-            item.setForeground(Color.WHITE);
-        } else {
-            item.setBackground(Color.WHITE);
-            item.setForeground(Color.BLACK);
+        if(((Projeto)value).isFile()) {
+            if(isSelected) {
+                itemFile.setBackground(Color.LIGHT_GRAY);
+            } else if(itemFile.getBackground().equals(Color.LIGHT_GRAY)){
+                itemFile.setBackground(Color.WHITE);
+            }
+            itemFile.setText("         ● "+value.toString());
+            return itemFile;
         }
-        return item;
+        itemProjeto.setText(value.toString());
+        if (isSelected) {
+            itemProjeto.setBackground(Color.BLUE);
+            itemProjeto.setForeground(Color.WHITE);
+        } else {
+            itemProjeto.setBackground(Color.WHITE);
+            itemProjeto.setForeground(Color.BLACK);
+        }
+        return itemProjeto;
     }
 
     /**
      * Verifica se existe um elemento com nome especificado
+     *
      * @param nome nome do projeto
      * @return true se existir, false se não encontrar
      */
