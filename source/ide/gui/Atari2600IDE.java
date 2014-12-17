@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ide.gui;
 
 import ide.Montador;
@@ -11,8 +6,6 @@ import ide.Recursos;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -54,32 +47,35 @@ public class Atari2600IDE extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
+        javax.swing.JToolBar jToolBar1 = new javax.swing.JToolBar();
         javax.swing.JButton jButtonSave = new javax.swing.JButton();
         javax.swing.JButton jButtonPlay = new javax.swing.JButton();
         jButtonStop = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        javax.swing.JTextPane jTextPane1 = new javax.swing.JTextPane();
-        jScrollPaneNotificacoes = new javax.swing.JScrollPane();
+        javax.swing.JScrollPane jScrollPaneWelcome = new javax.swing.JScrollPane();
+        javax.swing.JTextPane jTextPaneWelcome = new javax.swing.JTextPane();
+        javax.swing.JScrollPane jScrollPaneNotificacoes = new javax.swing.JScrollPane();
         jTextAreaNotificacoes = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        javax.swing.JScrollPane jScrollPaneList = new javax.swing.JScrollPane();
         jListProjetos = new javax.swing.JList();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
         javax.swing.JMenu jMenuFile = new javax.swing.JMenu();
-        jMenuItemNew = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItemSave = new javax.swing.JMenuItem();
-        jMenuItemExclude = new javax.swing.JMenuItem();
-        jMenuItemClose = new javax.swing.JMenuItem();
-        jMenuItemExit = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItemUndo = new javax.swing.JMenuItem();
-        jMenuItemRedo = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItemCut = new javax.swing.JMenuItem();
-        jMenuItemCopy = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemNew = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemSave = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemExclude = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemClose = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemExit = new javax.swing.JMenuItem();
+        javax.swing.JMenu jMenuEdit = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItemUndo = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemRedo = new javax.swing.JMenuItem();
+        javax.swing.JPopupMenu.Separator jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        javax.swing.JMenuItem jMenuItemCut = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemCopy = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemPaste = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(ide.Recursos.LOGO.getImage());
@@ -137,16 +133,16 @@ public class Atari2600IDE extends javax.swing.JFrame {
             }
         });
 
-        jTextPane1.setEditable(false);
-        jTextPane1.setContentType("text/html"); // NOI18N
+        jTextPaneWelcome.setEditable(false);
+        jTextPaneWelcome.setContentType("text/html"); // NOI18N
         try {
-            jTextPane1.setPage(Recursos.HTML);
+            jTextPaneWelcome.setPage(Recursos.HTML);
         } catch (java.io.IOException e1) {
             e1.printStackTrace();
         }
-        jScrollPane2.setViewportView(jTextPane1);
+        jScrollPaneWelcome.setViewportView(jTextPaneWelcome);
 
-        jTabbedPane1.addTab("Welcome", jScrollPane2);
+        jTabbedPane1.addTab("Welcome", jScrollPaneWelcome);
 
         jTextAreaNotificacoes.setColumns(20);
         jTextAreaNotificacoes.setRows(5);
@@ -161,7 +157,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 jListProjetosMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jListProjetos);
+        jScrollPaneList.setViewportView(jListProjetos);
 
         jMenuFile.setText("File");
 
@@ -227,7 +223,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuFile);
 
-        jMenu2.setText("Edit");
+        jMenuEdit.setText("Edit");
 
         jMenuItemUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-undo.png"))); // NOI18N
@@ -237,7 +233,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 jMenuItemUndoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemUndo);
+        jMenuEdit.add(jMenuItemUndo);
 
         jMenuItemRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-redo.png"))); // NOI18N
@@ -247,8 +243,8 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 jMenuItemRedoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemRedo);
-        jMenu2.add(jSeparator1);
+        jMenuEdit.add(jMenuItemRedo);
+        jMenuEdit.add(jSeparator1);
 
         jMenuItemCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-cut.png"))); // NOI18N
@@ -258,7 +254,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 jMenuItemCutActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemCut);
+        jMenuEdit.add(jMenuItemCut);
 
         jMenuItemCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-copy.png"))); // NOI18N
@@ -268,19 +264,39 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 jMenuItemCopyActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemCopy);
+        jMenuEdit.add(jMenuItemCopy);
 
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-paste.png"))); // NOI18N
-        jMenuItem7.setText("Paste");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ide/gui/imgs/edit-paste.png"))); // NOI18N
+        jMenuItemPaste.setText("Paste");
+        jMenuItemPaste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                jMenuItemPasteActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem7);
+        jMenuEdit.add(jMenuItemPaste);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenuEdit);
+
+        jMenu1.setText("Config");
+
+        jMenuItem2.setText("Project Dir");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Assembler");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -292,7 +308,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPaneNotificacoes, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1)
@@ -309,7 +325,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                         .addComponent(jTabbedPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPaneList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPaneNotificacoes, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -426,7 +442,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
         Projeto proj = (Projeto) jListProjetos.getSelectedValue();
         if (proj != null) {
             String texto = "Do you really want to delete the ";
-            if(proj.isFile()) {
+            if (proj.isFile()) {
                 texto += "file ";
             } else {
                 texto += "project ";
@@ -449,7 +465,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                     }
                 }
                 //Fecha demais abas
-                if(!proj.isFile()) {
+                if (!proj.isFile()) {
                     for (File file : proj.getDiretorio().listFiles()) {
                         for (int i = 0; i < jTabbedPane1.getTabCount(); i++) {
                             if (jTabbedPane1.getTitleAt(i).equals(file.getName())) {
@@ -464,7 +480,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
                 //Remove dos projetos
                 int pos = projetos.indexOf(proj);
                 projetos.removeElement(proj);
-                while (pos < projetos.size() && projetos.get(pos).isFile()) {                    
+                while (pos < projetos.size() && projetos.get(pos).isFile()) {
                     projetos.remove(pos);
                 }
             }
@@ -503,12 +519,12 @@ public class Atari2600IDE extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItemCopyActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void jMenuItemPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPasteActionPerformed
         JTextPane text = getSelectText();
         if (text != null) {
             text.paste();
         }
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_jMenuItemPasteActionPerformed
 
     private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
         boolean cancel = false;
@@ -535,14 +551,14 @@ public class Atari2600IDE extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         Projeto proj = (Projeto) jListProjetos.getSelectedValue();
-        if(proj != null && !proj.isFile()) {
+        if (proj != null && !proj.isFile()) {
             String nome = JOptionPane.showInputDialog(this, "Enter the file name");
-            if(!nome.equals("")) {
-                File arquivo = new File(proj.getDiretorio(), nome+".h");
+            if (!nome.equals("")) {
+                File arquivo = new File(proj.getDiretorio(), nome + ".h");
                 try {
                     arquivo.createNewFile();
                     int index = projetos.indexOf(proj);
-                    projetos.add(index+1, new Projeto(arquivo));
+                    projetos.add(index + 1, new Projeto(arquivo));
                 } catch (IOException ex) {
                     System.err.println(ex);
                 }
@@ -553,6 +569,22 @@ public class Atari2600IDE extends javax.swing.JFrame {
             System.err.println("Select a project");
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JOptionPane.showMessageDialog(this, Recursos.PROJECTS_DIR.getAbsoluteFile());
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String newFile = JOptionPane.showInputDialog(this, "You can change!", Recursos.MONTADOR);
+        if (newFile != null && !newFile.equals(Recursos.MONTADOR)) {
+            File novo = new File(newFile);
+            if (novo.exists()) {
+                Recursos.MONTADOR = newFile;
+            } else {
+                System.err.println("Can't change");
+            }
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void modificar() {
         if (projetoAtual != null && projetoAtual.getSalvo()) {
@@ -596,7 +628,7 @@ public class Atari2600IDE extends javax.swing.JFrame {
         });
         scroll.setRowHeaderView(doc.getLinhas());
         scroll.setColumnHeaderView(doc.getCursor());
-        if(projetoAtual.isFile()) {
+        if (projetoAtual.isFile()) {
             jTabbedPane1.insertTab(projetoAtual.getNome(), null, scroll, "tooltip", 1);
         } else {
             jTabbedPane1.insertTab(projetoAtual.getNome(), Recursos.ICON, scroll, "tooltip", 1);
@@ -634,26 +666,11 @@ public class Atari2600IDE extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonStop;
     private javax.swing.JList jListProjetos;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItemClose;
-    private javax.swing.JMenuItem jMenuItemCopy;
-    private javax.swing.JMenuItem jMenuItemCut;
-    private javax.swing.JMenuItem jMenuItemExclude;
-    private javax.swing.JMenuItem jMenuItemExit;
-    private javax.swing.JMenuItem jMenuItemNew;
-    private javax.swing.JMenuItem jMenuItemRedo;
-    private javax.swing.JMenuItem jMenuItemSave;
-    private javax.swing.JMenuItem jMenuItemUndo;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPaneNotificacoes;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextAreaNotificacoes;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
     public JTextArea getNotificacoes() {
