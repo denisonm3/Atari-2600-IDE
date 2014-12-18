@@ -3,6 +3,7 @@ package ide;
 import static ide.Recursos.LOGO;
 import ide.gui.Atari2600IDE;
 import ide.gui.SplashWindow;
+import ide.gui.code.RegisterNames;
 import java.awt.Color;
 import java.io.PrintStream;
 

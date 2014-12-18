@@ -1,5 +1,6 @@
-package ide.gui;
+package ide.gui.code;
 
+import ide.gui.code.Opcodes;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -11,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -49,25 +51,6 @@ import javax.swing.undo.UndoManager;
  */
 public class DocumentAssembly6502 extends DefaultStyledDocument implements CaretListener {
 
-    private final String[] keywords = {
-        "\\bADC\\b", "\\bAND\\b", "\\bASL\\b",
-        "\\bBCC\\b", "\\bBCS\\b", "\\bBEQ\\b",
-        "\\bBIT\\b", "\\bBMI\\b", "\\bBNE\\b",
-        "\\bBPL\\b", "\\bBRK\\b", "\\bBVC\\b", "\\bBVS\\b",
-        "\\bCLC\\b", "\\bCLD\\b", "\\bCLI\\b", "\\bCLV\\b",
-        "\\bCMP\\b", "\\bCPX\\b", "\\bCPY\\b",
-        "\\bDEC\\b", "\\bDEX\\b", "\\bDEY\\b",
-        "\\bEOR\\b", "\\bINC\\b", "\\bINX\\b",
-        "\\bINY\\b", "\\bJMP\\b", "\\bJSR\\b", "\\bLDA\\b",
-        "\\bLDX\\b", "\\bLDY\\b", "\\bLSR\\b", "\\bNOP\\b",
-        "\\bORA\\b", "\\bPHA\\b", "\\bPHP\\b",
-        "\\bPLA\\b", "\\bPLP\\b", "\\bROL\\b",
-        "\\bROR\\b", "\\bRTI\\b", "\\bRTS\\b",
-        "\\bSBC\\b", "\\bSEC\\b", "\\bSED\\b", "\\bSEI\\b",
-        "\\bSTA\\b", "\\bSTX\\b", "\\bSTY\\b", "\\bTAX\\b",
-        "\\bTAY\\b", "\\bTSX\\b", "\\bTXA\\b",
-        "\\bTXS\\b", "\\bTYA\\b"
-    };
     private final String[] keyStrings = {
         "\"(.*)\"",
         "(\'.\')",
@@ -77,9 +60,10 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
     private final MutableAttributeSet style;
     private final Color defaultStyle = Color.black;
     private final Color commentStyle = Color.lightGray;
-    private final Color keyStyle = Color.blue;
+    private final Color OpcodeStyle = Color.blue;
+    private final Color RegisterStyle = new Color(250, 125, 0);
     private final Color numberStyle = new Color(0, 150, 0);
-    private final Color stringStyle = new Color(250, 125, 0);
+    private final Color stringStyle = Color.cyan;
     private final Pattern singleCommentDelim = Pattern.compile(";(.*)\n");
     private final Font font;
     //Desenha linhas
@@ -89,24 +73,7 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
     //Popup para auto completar
     private JPopupMenu popup;
     private JList ListAutoCompletar;
-    private final String[] autoCompletar = {
-        "ADC .... add with carry\n", "AND .... and (with accumulator)\n", "ASL .... arithmetic shift left\n",
-        "BCC .... branch on carry clear\n", "BCS .... branch on carry set\n", "BEQ .... branch on equal (zero set)\n",
-        "BIT .... bit test\n", "BMI .... branch on minus (negative set)\n", "BNE .... branch on not equal (zero clear)\n",
-        "BPL .... branch on plus (negative clear)\n", "BRK .... interrupt\n", "BVC .... branch on overflow clear\n", "BVS .... branch on overflow set\n",
-        "CLC .... clear carry\n", "CLD .... clear decimal\n", "CLI .... clear interrupt disable\n", "CLV .... clear overflow\n",
-        "CMP .... compare (with accumulator)\n", "CPX .... compare with X\n", "CPY .... compare with Y\n",
-        "DEC .... decrement\n", "DEX .... decrement X\n", "DEY .... decrement Y\n",
-        "EOR .... exclusive or (with accumulator)\n", "INC .... increment\n", "INX .... increment X\n",
-        "INY .... increment Y\n", "JMP .... jump\n", "JSR .... jump subroutine\n", "LDA .... load accumulator\n",
-        "LDX .... load X\n", "LDY .... load Y\n", "LSR .... logical shift right\n", "NOP .... no operation\n",
-        "ORA .... or with accumulator\n", "PHA .... push accumulator\n", "PHP .... push processor status (SR)\n",
-        "PLA .... pull accumulator\n", "PLP .... pull processor status (SR)\n", "ROL .... rotate left\n",
-        "ROR .... rotate right\n", "RTI .... return from interrupt\n", "RTS .... return from subroutine\n",
-        "SBC .... subtract with carry\n", "SEC .... set carry\n", "SED .... set decimal\n", "SEI .... set interrupt disable\n",
-        "STA .... store accumulator\n", "STX .... store X\n", "STY .... store Y\n", "TAX .... transfer accumulator to X\n",
-        "TAY .... transfer accumulator to Y\n", "TSX .... transfer stack pointer to X\n", "TXA .... transfer X to accumulator\n",
-        "TXS .... transfer X to stack pointer\n", "TYA .... transfer Y to accumulator"};
+    //Controle desfazer e refazer
     private UndoManager undoManager;
 
     public DocumentAssembly6502() {
@@ -223,10 +190,22 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
         //StyleConstants.setItalic(style, false);
         setCharacterAttributes(start, end - start, style, true);
 
-        // Keywords
+        // OPCODE
         StyleConstants.setBold(style, true);
-        StyleConstants.setForeground(style, keyStyle);
-        for (String keyword : keywords) {
+        StyleConstants.setForeground(style, OpcodeStyle);
+        for (String keyword : Opcodes.OPCODES_NOME) {
+            Pattern p = Pattern.compile(keyword);
+            Matcher m = p.matcher(text);
+
+            while (m.find()) {
+                setCharacterAttributes(start + m.start(), m.end() - m.start(), style, true);
+            }
+        }
+
+        // REGISTER
+        StyleConstants.setBold(style, true);
+        StyleConstants.setForeground(style, RegisterStyle);
+        for (String keyword : RegisterNames.REGISTER_NOME) {
             Pattern p = Pattern.compile(keyword);
             Matcher m = p.matcher(text);
 
@@ -303,7 +282,6 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
         int inicio = ce.getDot();
         int fim = ce.getMark();
         JTextComponent jTexto = (JTextComponent) ce.getSource();
-        String textoSelecionado;
 
         if (inicio == fim) {// no selection
             try {
@@ -319,17 +297,31 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
             }
             if (fim - inicio > 1 && fim - inicio < 50) {
                 try {
-                    textoSelecionado = "\\b" + this.getText(inicio, fim - inicio) + "\\b";
-                    processChangedLines(0, getLength());
-                    //Marcar texto igual ao texto selecionado
-                    StyleConstants.setForeground(style, Color.BLACK);
-                    StyleConstants.setBackground(style, Color.YELLOW);
-                    Pattern p = Pattern.compile(textoSelecionado);
-                    Matcher m = p.matcher(jTexto.getText());
-                    while (m.find()) {
-                        setCharacterAttributes(m.start(), m.end() - m.start(), style, true);
+                    //Obtem o texto selecionado
+                    String texto = this.getText(inicio - 1, fim - inicio + 2);
+                    System.out.println(">"+texto+"<");
+                    char start = texto.charAt(0);
+                    char end = texto.charAt(texto.length() - 1);
+                    texto = texto.substring(1, texto.length() - 1);
+                    System.out.println(">"+texto+"<");
+                    System.out.println("("+start+")");
+                    System.out.println("("+end+")");
+                    if ((start == ' ' || start == '\n')
+                            && (end == ' ' || end == '\n' || end == ':')
+                            && !texto.contains(" ")
+                            && !texto.contains("\n")) {
+                        texto = "\\b" + texto + "\\b";
+                        processChangedLines(0, getLength());
+                        //Marcar texto igual ao texto selecionado
+                        StyleConstants.setForeground(style, Color.BLACK);
+                        StyleConstants.setBackground(style, Color.YELLOW);
+                        Pattern p = Pattern.compile(texto);
+                        Matcher m = p.matcher(jTexto.getText());
+                        while (m.find()) {
+                            setCharacterAttributes(m.start(), m.end() - m.start(), style, true);
+                        }
+                        StyleConstants.setBackground(style, Color.WHITE);
                     }
-                    StyleConstants.setBackground(style, Color.WHITE);
                 } catch (Exception ex) {
                     StyleConstants.setBackground(style, Color.WHITE);
                 }
@@ -346,7 +338,10 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
 
     private void criarPopup() {
         popup = new JPopupMenu();
-        ListAutoCompletar = new JList(autoCompletar);
+        String[] itens = new String[Opcodes.OPCODES_DESCRICAO.length + RegisterNames.REGISTER_DESCRICAO.length];
+        System.arraycopy(Opcodes.OPCODES_DESCRICAO, 0, itens, 0, Opcodes.OPCODES_DESCRICAO.length);
+        System.arraycopy(RegisterNames.REGISTER_DESCRICAO, 0, itens, Opcodes.OPCODES_DESCRICAO.length, RegisterNames.REGISTER_DESCRICAO.length);
+        ListAutoCompletar = new JList(itens);
         ListAutoCompletar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListAutoCompletar.addMouseListener(new MouseAdapter() {
             @Override
@@ -413,20 +408,29 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
                 try {
                     int dot = jTextPane.getCaret().getDot();
                     Rectangle caretCoords = jTextPane.modelToView(dot);
-                    popup.show(jTextPane, caretCoords.x, caretCoords.y);
                     int index = 0;
                     if (dot > 0) {
                         String text = getText(dot - 1, 1);
-                        for (String string : autoCompletar) {
+                        for (String string : Opcodes.OPCODES_DESCRICAO) {
                             if (string.startsWith(text)) {
                                 break;
                             } else {
                                 index++;
                             }
                         }
+                        if (index == Opcodes.OPCODES_DESCRICAO.length) {
+                            for (String string : RegisterNames.REGISTER_DESCRICAO) {
+                                if (string.startsWith(text)) {
+                                    break;
+                                } else {
+                                    index++;
+                                }
+                            }
+                        }
                     }
                     ListAutoCompletar.setSelectedIndex(index);
-                    ListAutoCompletar.repaint();
+                    ListAutoCompletar.ensureIndexIsVisible(index);
+                    popup.show(jTextPane, caretCoords.x, caretCoords.y);
                     ListAutoCompletar.requestFocus();
                 } catch (BadLocationException ex) {
                     Logger.getLogger(DocumentAssembly6502.class.getName()).log(Level.SEVERE, null, ex);

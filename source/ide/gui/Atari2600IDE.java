@@ -1,5 +1,6 @@
 package ide.gui;
 
+import ide.gui.code.DocumentAssembly6502;
 import ide.Montador;
 import ide.Projeto;
 import ide.Recursos;
