@@ -328,8 +328,8 @@ public class Atari2600IDE extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPaneList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneNotificacoes, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPaneNotificacoes, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)))
+                .addGap(15, 15, 15))
         );
 
         pack();
