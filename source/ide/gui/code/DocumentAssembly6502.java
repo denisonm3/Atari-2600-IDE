@@ -303,9 +303,6 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
                     char start = texto.charAt(0);
                     char end = texto.charAt(texto.length() - 1);
                     texto = texto.substring(1, texto.length() - 1);
-                    System.out.println(">"+texto+"<");
-                    System.out.println("("+start+")");
-                    System.out.println("("+end+")");
                     if ((start == ' ' || start == '\n')
                             && (end == ' ' || end == '\n' || end == ':')
                             && !texto.contains(" ")
