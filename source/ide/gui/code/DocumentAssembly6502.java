@@ -278,7 +278,6 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
 
     @Override
     public void caretUpdate(CaretEvent ce) {
-        //System.out.println("Mover");
         int inicio = ce.getDot();
         int fim = ce.getMark();
         JTextComponent jTexto = (JTextComponent) ce.getSource();
@@ -299,7 +298,6 @@ public class DocumentAssembly6502 extends DefaultStyledDocument implements Caret
                 try {
                     //Obtem o texto selecionado
                     String texto = this.getText(inicio - 1, fim - inicio + 2);
-                    System.out.println(">"+texto+"<");
                     char start = texto.charAt(0);
                     char end = texto.charAt(texto.length() - 1);
                     texto = texto.substring(1, texto.length() - 1);
