@@ -54,7 +54,7 @@ import javax.swing.JWindow;
 
 /**
  *
- * Janela de carregamento do iSPD, chamada durante a inicialização do programa
+ * Janela de carregamento, chamada durante a inicialização do programa
  *
  * @author denison
  */
@@ -93,6 +93,7 @@ public class SplashWindow extends JWindow {
             g2.fillRoundRect(6, 6, width - 6, height - 6, 12, 12);
             g2.dispose();
         } catch (AWTException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 
